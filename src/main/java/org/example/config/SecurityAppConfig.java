@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.proxy.NoOp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
@@ -57,25 +56,14 @@ public class SecurityAppConfig {
     @Bean
     SecurityFilterChain settingUpSecurity() throws Exception {
 
-        //old styling for security
 //        httpSecurity.authorizeHttpRequests().anyRequest().permitAll();
-//        httpSecurity.authorizeHttpRequests().requestMatchers("/hi").authenticated();
-//        httpSecurity.authorizeHttpRequests().requestMatchers("/bye").denyAll();
-//        httpSecurity.authorizeHttpRequests().requestMatchers("/hello").permitAll();
 
-//        httpSecurity.formLogin();
-//        httpSecurity.httpBasic();
+        httpSecurity.authorizeHttpRequests().requestMatchers("/hi").authenticated();
+        httpSecurity.authorizeHttpRequests().requestMatchers("/bye").denyAll();
+        httpSecurity.authorizeHttpRequests().requestMatchers("/hello").permitAll();
 
-
-        httpSecurity.authorizeHttpRequests(customizer->{
-           customizer.requestMatchers("/hi").authenticated();
-           customizer.requestMatchers("/bye").hasRole("admin");
-           customizer.requestMatchers("/hello").permitAll();
-        });
-
-        httpSecurity.formLogin(Customizer.withDefaults());
-        httpSecurity.httpBasic(Customizer.withDefaults());
-
+        httpSecurity.formLogin();
+        httpSecurity.httpBasic();
 
         return httpSecurity.build();
     }
